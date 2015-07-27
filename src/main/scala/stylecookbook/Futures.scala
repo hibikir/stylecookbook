@@ -58,11 +58,10 @@ object Futures {
         EmployeeWithRole(c.id, c.name, r)
       }
 
-    def capitalizedFutureEmployee(e:Employee) :Future[Employee] = Future.successful(capitalizedEmployee(e))
-    
+
     def capitalEmployeeWithRole2(id: Int) : Future[EmployeeWithRole] =
       for (e <- grabber.employee(id);
-           c <- capitalizedFutureEmployee(e);
+           c <- Future.successful(capitalizedEmployee(e));
            r <- grabber.role(e)) yield EmployeeWithRole(c.id, c.name, r)
 
     //if two steps do not depend on each other the for loop will be slow, unless we create the futures ourselves
