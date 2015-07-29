@@ -49,7 +49,7 @@ object Futures {
            r <- grabber.role(e)) yield EmployeeWithRole(c.id, c.name, r)
     */
 
-    //we'd have to either do the manipulation on the yield, or create a generator that returns a future, for instance:
+    //we'd have to either do the manipulation on the yield, or use the tricky = in generators syntax, for instance:
 
     def capitalEmployeeWithRole(id: Int) : Future[EmployeeWithRole] =
       for (e <- grabber.employee(id);
@@ -61,7 +61,7 @@ object Futures {
 
     def capitalEmployeeWithRole2(id: Int) : Future[EmployeeWithRole] =
       for (e <- grabber.employee(id);
-           c <- Future.successful(capitalizedEmployee(e));
+           c = capitalizedEmployee(e);
            r <- grabber.role(e)) yield EmployeeWithRole(c.id, c.name, r)
 
     //if two steps do not depend on each other the for loop will be slow, unless we create the futures ourselves
